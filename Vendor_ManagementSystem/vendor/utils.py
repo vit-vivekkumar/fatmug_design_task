@@ -1,5 +1,7 @@
 from django.db.models import Avg, Count
 
+from .models import PurchaseOrder
+
 def update_vendor_metrics(vendor):
     completed_orders = PurchaseOrder.objects.filter(vendor=vendor, status='completed')
 
@@ -12,3 +14,4 @@ def update_vendor_metrics(vendor):
     vendor.fulfillment_rate = (completed_orders.filter(status='completed', quality_rating__isnull=True).count() / completed_orders.count()) * 100 if completed_orders.count() > 0 else 0
 
     vendor.save()
+
